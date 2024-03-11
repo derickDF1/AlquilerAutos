@@ -136,7 +136,6 @@ namespace AlquilerAutos
             comboBoxAl_nit.DisplayMember = "nit";
             comboBoxAl_nit.DataSource = clientes;
      
-
             comboBoxAl_placa.DisplayMember = "placa";
             comboBoxAl_placa.DataSource = vehiculos;
         }
