@@ -49,6 +49,13 @@ namespace AlquilerAutos
             dataGridViewAlquileres.Refresh();
         }
 
+        private void MostrarReportes()
+        {
+            dataGridViewReportes.DataSource = null;
+            dataGridViewReportes.DataSource = reportes;
+            dataGridViewReportes.Refresh();
+        }
+
         private void cargarComboBoxPlacas()
         {
             comboBoxAl_placa.DataSource = null;
@@ -56,23 +63,18 @@ namespace AlquilerAutos
             comboBoxAl_placa.DisplayMember = "Placa";
         }
 
-        private void mostrarReportes()
-        {
-            dataGridViewReportes.DataSource = null;
-            dataGridViewReportes.DataSource = reportes;
-            dataGridViewReportes.Refresh();
-        }
-
         private void refrescarDatos()
         {
             cargarVehiculos();
             cargarClientes();
             cargarAlquileres();
+            cargarReportes();
             MostrarVehiculos();
             MostrarClientes();
             MostrarAlquileres();
+            MostrarReportes();
             cargarComboBoxPlacas();
-            mostrarReportes();
+            mostrarMaxKilometraje();
         }
 
         private void cargarVehiculos()
@@ -137,6 +139,29 @@ namespace AlquilerAutos
             reader.Close();
         }
 
+        private void cargarReportes()
+        {
+            reportes.Clear();
+            string fileName = "Reportes.txt";
+            using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            using (StreamReader reader = new StreamReader(stream))
+
+            while (reader.Peek() > -1)
+                {
+                    Reporte reporte = new Reporte();
+                    reporte.NombreCliente = reader.ReadLine();
+                    reporte.Placa = reader.ReadLine();
+                    reporte.Marca = reader.ReadLine();
+                    reporte.Modelo = reader.ReadLine();
+                    reporte.Color = reader.ReadLine();
+                    reporte.FechaDevolución = Convert.ToDateTime(reader.ReadLine());
+                    reporte.TotalPagar = Convert.ToDecimal(reader.ReadLine());
+
+                    reportes.Add(reporte);
+                }
+            MostrarReportes();
+        }
+
         private void limpiarTextbox()
         {
             maskedTextBoxPlaca.Text = "";
@@ -154,27 +179,22 @@ namespace AlquilerAutos
             labelAl_datosVehiculo.Text = "...";
         }
 
-        private void buttonGuardarVehiculo_Click(object sender, EventArgs e)
+        private void mostrarMaxKilometraje()
         {
-            //Leer el archivo y cargarlo a la lista
-            string fileName = "Vehiculos.txt";
-            FileStream stream = new FileStream(fileName, FileMode.Append, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(stream);
+            decimal maxKilometraje = 0;
+            string placaMaxKilometraje = "";
 
-            writer.WriteLine(maskedTextBoxPlaca.Text);
-            writer.WriteLine(textBoxMarca.Text);
-            writer.WriteLine(textBoxModelo.Text);
-            writer.WriteLine(textBoxColor.Text);
-            writer.WriteLine(textBoxPrecioXkilometro.Text);
+            foreach (Alquiler alquiler in alquileres)
+            {
+                if (alquiler.KilómetrosRecorridos > maxKilometraje)
+                {
+                    maxKilometraje = alquiler.KilómetrosRecorridos;
+                    placaMaxKilometraje = alquiler.Placa;
+                }
+            }
 
-            limpiarTextbox();
-            writer.Close();
-            MessageBox.Show("Vehiculo Guardado");
-
-            refrescarDatos();
-            labelAl_datosVehiculo.Text = "...";
-            comboBoxAl_placa.Text = "";
-            maskedTextBoxPlaca.Select();
+            // Mostrar el máximo kilometraje en la etiqueta
+            labelMaxKilometraje.Text = "Placa: " + placaMaxKilometraje + " Con: " + maxKilometraje.ToString() + "KM recorridos.";
         }
 
         private void buttonLimpiarVehiculo_Click(object sender, EventArgs e)
@@ -185,8 +205,8 @@ namespace AlquilerAutos
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            MostrarReportes();
             refrescarDatos();
-            mostrarReportes();
 
             comboBoxAl_nit.DataSource = clientes;
             comboBoxAl_nit.DisplayMember = "nit";
@@ -252,17 +272,20 @@ namespace AlquilerAutos
             MessageBox.Show("Alquiler registrado.");
 
             refrescarDatos();
+            guardarReporte();
             comboBoxAl_nit.Select();
-            adjuntarReporte();
-            guardarReportes();
 
             labelAl_datosVehiculo.Text = "...";
             comboBoxAl_placa.Text = "";
         }
-        
-        private void adjuntarReporte ()
+
+        private void guardarReporte()
         {
             reportes.Clear();
+            string fileName = "Reportes.txt";
+            FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(stream);
+
             foreach (Alquiler alquiler in alquileres)
             {
                 Cliente cliente = clientes.Find(c => c.Nit == alquiler.Nit);
@@ -275,38 +298,53 @@ namespace AlquilerAutos
                 reporte.Modelo = vehiculo.Modelo;
                 reporte.Color = vehiculo.Color;
                 reporte.FechaDevolución = alquiler.FechaDevolución;
-                reporte.TotalPagar = (vehiculo.PrecioXkilometro) * alquiler.KilómetrosRecorridos;
+                reporte.TotalPagar = vehiculo.PrecioXkilometro * alquiler.KilómetrosRecorridos;
                 reportes.Add(reporte);
-            }
-            refrescarDatos();
-        }
 
-        private void guardarReportes ()
-        {
-            //Leer el archivo y cargarlo a la lista
-            string fileName = "Reportes.txt";
-            FileStream stream = new FileStream(fileName, FileMode.Append, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(stream);
-
-            foreach (Reporte reporte in reportes)
-            {
-                int i = 0;
-                writer.WriteLine(reportes[i].NombreCliente);
-                writer.WriteLine(reportes[i].Placa);
-                writer.WriteLine(reportes[i].Marca);
-                writer.WriteLine(reportes[i].Modelo);
-                writer.WriteLine(reportes[i].Color);
-                writer.WriteLine(reportes[i].FechaDevolución);
-                writer.WriteLine(reportes[i].TotalPagar);
-                i++;
+                // Guardar el reporte en el archivo
+                writer.WriteLine(reporte.NombreCliente);
+                writer.WriteLine(reporte.Placa);
+                writer.WriteLine(reporte.Marca);
+                writer.WriteLine(reporte.Modelo);
+                writer.WriteLine(reporte.Color);
+                writer.WriteLine(reporte.FechaDevolución);
+                writer.WriteLine(reporte.TotalPagar);
             }
-            
             writer.Close();
+            MostrarReportes();
         }
 
-        private void buttonActualizarReporte_Click(object sender, EventArgs e)
+        private void buttonGuardarVehiculo_Click(object sender, EventArgs e)
         {
-            
+            if (vehiculos.Any(v => v.Placa == maskedTextBoxPlaca.Text))
+            {
+                MessageBox.Show("El vehículo con esta placa ya está registrado");
+                limpiarTextbox();
+                maskedTextBoxPlaca.Select();
+            }
+
+            else
+            {
+                string fileName = "Vehiculos.txt";
+                FileStream stream = new FileStream(fileName, FileMode.Append, FileAccess.Write);
+                StreamWriter writer = new StreamWriter(stream);
+
+                writer.WriteLine(maskedTextBoxPlaca.Text);
+                writer.WriteLine(textBoxMarca.Text);
+                writer.WriteLine(textBoxModelo.Text);
+                writer.WriteLine(textBoxColor.Text);
+                writer.WriteLine(textBoxPrecioXkilometro.Text);
+
+                limpiarTextbox();
+                guardarReporte();
+                writer.Close();
+                MessageBox.Show("Vehiculo Guardado");
+
+                refrescarDatos();
+                labelAl_datosVehiculo.Text = "...";
+                comboBoxAl_placa.Text = "";
+                maskedTextBoxPlaca.Select();
+            }
         }
     }
 }

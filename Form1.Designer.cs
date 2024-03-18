@@ -29,6 +29,7 @@ namespace AlquilerAutos
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.labelPlaca = new System.Windows.Forms.Label();
             this.labelMarca = new System.Windows.Forms.Label();
             this.labelModelo = new System.Windows.Forms.Label();
@@ -63,6 +64,12 @@ namespace AlquilerAutos
             this.labelAl_fechaDev = new System.Windows.Forms.Label();
             this.labelAl_kmRecorridos = new System.Windows.Forms.Label();
             this.dataGridViewReportes = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelMaxKilometraje = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVehiculos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClientes)).BeginInit();
@@ -200,7 +207,7 @@ namespace AlquilerAutos
             this.groupBox1.Controls.Add(this.textBoxModelo);
             this.groupBox1.Controls.Add(this.labelPrecioXkilometro);
             this.groupBox1.Controls.Add(this.textBoxMarca);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(18, 37);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(376, 289);
             this.groupBox1.TabIndex = 13;
@@ -219,7 +226,7 @@ namespace AlquilerAutos
             // dataGridViewVehiculos
             // 
             this.dataGridViewVehiculos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewVehiculos.Location = new System.Drawing.Point(412, 12);
+            this.dataGridViewVehiculos.Location = new System.Drawing.Point(412, 28);
             this.dataGridViewVehiculos.Name = "dataGridViewVehiculos";
             this.dataGridViewVehiculos.Size = new System.Drawing.Size(552, 151);
             this.dataGridViewVehiculos.TabIndex = 14;
@@ -227,7 +234,7 @@ namespace AlquilerAutos
             // dataGridViewClientes
             // 
             this.dataGridViewClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewClientes.Location = new System.Drawing.Point(412, 175);
+            this.dataGridViewClientes.Location = new System.Drawing.Point(412, 198);
             this.dataGridViewClientes.Name = "dataGridViewClientes";
             this.dataGridViewClientes.Size = new System.Drawing.Size(552, 139);
             this.dataGridViewClientes.TabIndex = 15;
@@ -235,7 +242,7 @@ namespace AlquilerAutos
             // dataGridViewAlquileres
             // 
             this.dataGridViewAlquileres.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewAlquileres.Location = new System.Drawing.Point(412, 323);
+            this.dataGridViewAlquileres.Location = new System.Drawing.Point(412, 358);
             this.dataGridViewAlquileres.Name = "dataGridViewAlquileres";
             this.dataGridViewAlquileres.Size = new System.Drawing.Size(552, 129);
             this.dataGridViewAlquileres.TabIndex = 17;
@@ -257,7 +264,7 @@ namespace AlquilerAutos
             this.groupBox2.Controls.Add(this.labelAl_fechaAlquiler);
             this.groupBox2.Controls.Add(this.labelAl_fechaDev);
             this.groupBox2.Controls.Add(this.labelAl_kmRecorridos);
-            this.groupBox2.Location = new System.Drawing.Point(12, 307);
+            this.groupBox2.Location = new System.Drawing.Point(18, 332);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(376, 310);
             this.groupBox2.TabIndex = 14;
@@ -410,25 +417,92 @@ namespace AlquilerAutos
             // dataGridViewReportes
             // 
             this.dataGridViewReportes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewReportes.Location = new System.Drawing.Point(412, 463);
+            this.dataGridViewReportes.Location = new System.Drawing.Point(412, 506);
             this.dataGridViewReportes.Name = "dataGridViewReportes";
             this.dataGridViewReportes.Size = new System.Drawing.Size(552, 151);
             this.dataGridViewReportes.TabIndex = 17;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(412, 663);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(250, 18);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Vehiculo con mayor kilometraje:";
+            // 
+            // labelMaxKilometraje
+            // 
+            this.labelMaxKilometraje.AutoSize = true;
+            this.labelMaxKilometraje.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMaxKilometraje.Location = new System.Drawing.Point(668, 663);
+            this.labelMaxKilometraje.Name = "labelMaxKilometraje";
+            this.labelMaxKilometraje.Size = new System.Drawing.Size(20, 18);
+            this.labelMaxKilometraje.TabIndex = 19;
+            this.labelMaxKilometraje.Text = "...";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(412, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(124, 15);
+            this.label2.TabIndex = 20;
+            this.label2.Text = "Vehiculos registrados";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(412, 182);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(51, 15);
+            this.label3.TabIndex = 21;
+            this.label3.Text = "Clientes";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(412, 340);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(61, 15);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Alquileres";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(412, 489);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(119, 15);
+            this.label5.TabIndex = 23;
+            this.label5.Text = "Reportes generados";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SkyBlue;
-            this.ClientSize = new System.Drawing.Size(979, 636);
+            this.ClientSize = new System.Drawing.Size(979, 689);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.labelMaxKilometraje);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridViewReportes);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.dataGridViewAlquileres);
             this.Controls.Add(this.dataGridViewClientes);
             this.Controls.Add(this.dataGridViewVehiculos);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Rentadora de autos";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -439,6 +513,7 @@ namespace AlquilerAutos
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReportes)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -477,6 +552,12 @@ namespace AlquilerAutos
         private System.Windows.Forms.DateTimePicker dateTimePickerFechaDev;
         private System.Windows.Forms.DateTimePicker dateTimePickerFechaAl;
         private System.Windows.Forms.DataGridView dataGridViewReportes;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelMaxKilometraje;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }
 
